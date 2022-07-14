@@ -5,7 +5,7 @@
 //  Created by Rob Ranf on 11/19/21.
 //
 
-import Foundation
+import SwiftUI
 
 extension Array {
     var oneAndOnly: Element? {
@@ -14,5 +14,11 @@ extension Array {
         } else {
             return nil
         }
+    }
+}
+
+extension View {
+    func cardify(isFaceUp: Bool) -> some View {
+        return self.modifier(Cardify(isFaceUp: isFaceUp))
     }
 }

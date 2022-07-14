@@ -18,8 +18,8 @@ struct TimerPie: Shape {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = min(rect.width, rect.height) / 2
         let start = CGPoint(
-            x: center.x + radius * CGFloat(cosh(startAngle.radians)),
-            y: center.y + radius * CGFloat(sinh(startAngle.radians))
+            x: center.x + radius * CGFloat(cos(startAngle.radians)),
+            y: center.y + radius * CGFloat(sin(startAngle.radians))
         )
         
         var p = Path()
