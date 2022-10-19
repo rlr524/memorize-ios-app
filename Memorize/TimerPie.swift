@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct TimerPie: Shape {
-    // Var because they are being animated
+    // Var because they are being animated; they're going to vary as we do the animation
+    // Shapes can be animated, unlike views. Clockwise needs to be a var because if it was
+    // a let, it would be initialized to false and couldn't be changed.
     var startAngle: Angle
     var endAngle: Angle
     // Var because will be used in a user configuration
     var clockwise: Bool = false
-    
+
     func path(in rect: CGRect) -> Path {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = min(rect.width, rect.height) / 2
@@ -21,11 +23,15 @@ struct TimerPie: Shape {
             x: center.x + radius * CGFloat(cos(startAngle.radians)),
             y: center.y + radius * CGFloat(sin(startAngle.radians))
         )
-        
+
         var p = Path()
         p.move(to: center)
         p.addLine(to: start)
-        p.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: !clockwise)
+        p.addArc(center: center,
+                 radius: radius,
+                 startAngle: startAngle,
+                 endAngle: endAngle,
+                 clockwise: !clockwise)
         p.addLine(to: center)
         return p
     }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class DrawingConstants {
+class DrawingGlobals {
     static let cornerRadius: CGFloat = 10
     static let lineWidth: CGFloat = 3
     static let fontScale: CGFloat = 0.70
