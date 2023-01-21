@@ -11,9 +11,9 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @Environment(\.colorScheme) var colorScheme
     /*
-     Initialize this in the MemorizeApp (@main) file by passing in the pointer to the vm as the
-     viewModel. The vm is observed for changes so the view will re-render anytime the
-     model is changed.
+     Initialize this in the MemorizeApp (@main) file by passing in the
+     pointer to the vm as the viewModel. The vm is observed for changes
+     so the view will re-render anytime the model is changed.
      */
 
     @ObservedObject var game: EmojiMemoryGame
