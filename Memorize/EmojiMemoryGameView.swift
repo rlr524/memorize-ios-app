@@ -20,25 +20,30 @@ struct EmojiMemoryGameView: View {
 
     var body: some View {
         VStack {
-            Text("Memorize!").font(.title)
-            AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
-                cardView(for: card)
-            })
-            .foregroundColor(.orange)
-            .padding(.horizontal)
-            .font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
+            gameBody
+            shuffle
         }
+        .padding()
     }
-    @ViewBuilder
-    private func cardView(for card: EmojiMemoryGame.Card) -> some View {
-        if card.isMatched && !card.isFaceUp {
-            Rectangle().opacity(0)
-        } else {
-            CardView(card: card)
-                .padding(4)
-                .onTapGesture {
-                    game.choose(card)
-                }
+    
+    var gameBody : some View {
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            if card.isMatched && !card.isFaceUp {
+                Rectangle().opacity(0)
+            } else {
+                CardView(card: card)
+                    .padding(4)
+                    .onTapGesture {
+                        game.choose(card)
+                    }
+            }
+        }
+        .foregroundColor(.red)
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            game.shuffle()
         }
     }
 
@@ -46,14 +51,14 @@ struct EmojiMemoryGameView: View {
         let card: EmojiMemoryGame.Card
 
         var body: some View {
-            GeometryReader { geometry in
+            GeometryReader { g in
                 ZStack {
                     TimerPie(
                         startAngle: Angle(degrees: 0-90),
                         endAngle: Angle(degrees: 110-90))
                     .padding(DrawingGlobals.timerCirclePadding)
                     .opacity(DrawingGlobals.timerCircleOpacity)
-                    Text(card.content).font(font(in: geometry.size))
+                    Text(card.content).font(font(in: g.size))
                 }
                 .cardify(isFaceUp: card.isFaceUp)
             }

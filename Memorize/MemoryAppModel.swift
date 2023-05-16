@@ -59,6 +59,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             }
         }
     }
+    
+    mutating func shuffle() {
+        cards.shuffle()
+    }
 
     // An initializer is needed here because we want to use this struct
     // as the initializer for our VM where we pass in the number of
@@ -71,9 +75,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: cardContent, id: pairIndex * 2))
             cards.append(Card(content: cardContent, id: pairIndex * 2 + 1))
         }
+        // Shuffle the cards when the game begins
+        cards.shuffle()
     }
 
-    /// Namespacing the card in MemoryGame in order to allow for other types of "cards" in the future
+    // Namespacing the card in MemoryGame in order to allow for other types of "cards" in the future
     struct Card: Identifiable {
         var isFaceUp = false
         var isMatched = false
