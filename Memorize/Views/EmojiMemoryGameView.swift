@@ -21,15 +21,21 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             gameBody
-            shuffle
+            
+            HStack {
+                shuffle
+            }
         }
         .padding()
     }
     
     var gameBody : some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            // Card has been thrown away because it's matched and not face up
             if card.isMatched && !card.isFaceUp {
-                Rectangle().opacity(0)
+                // Color behaves as a view here and creates a rectangle that fills this
+                // "card" area and it's filled with "clear" which just means transparent.
+                Color.clear
             } else {
                 CardView(card: card)
                     .padding(4)
@@ -43,10 +49,12 @@ struct EmojiMemoryGameView: View {
     
     var shuffle: some View {
         Button("Shuffle") {
-            game.shuffle()
+            withAnimation(.easeInOut(duration: 2)) {
+                game.shuffle()
+            }
         }
     }
-
+    
     struct CardView: View {
         let card: EmojiMemoryGame.Card
 
@@ -56,15 +64,25 @@ struct EmojiMemoryGameView: View {
                     TimerPie(
                         startAngle: Angle(degrees: 0-90),
                         endAngle: Angle(degrees: 110-90))
-                    .padding(DrawingGlobals.timerCirclePadding)
-                    .opacity(DrawingGlobals.timerCircleOpacity)
-                    Text(card.content).font(font(in: g.size))
+                    .padding(K.timerCirclePadding)
+                    .opacity(K.timerCircleOpacity)
+                    withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
+                        Text(card.content)
+                            .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
+                            .font(font(in: g.size))
+                            .scaleEffect(scale(thatFits: g.size))
+                    }
                 }
                 .cardify(isFaceUp: card.isFaceUp)
             }
         }
+        
+        private func scale(thatFits size: CGSize) -> CGFloat {
+            min(size.width, size.height) / (K.fontSize / K.fontScale)
+        }
+        
         private func font(in size: CGSize) -> Font {
-            return Font.system(size: min(size.width, size.height) * DrawingGlobals.fontScale)
+            return Font.system(size: min(size.width, size.height) * K.fontScale)
         }
     }
     // MARK: - Preview pane

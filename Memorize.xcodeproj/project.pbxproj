@@ -65,17 +65,12 @@
 		D4463156270D1D16005C4138 /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
-				7AD5A21D2867D88800CA59DD /* AspectVGrid.swift */,
-				D40E259927238FBC00962F24 /* EmojiMemoryGameModel.swift */,
-				D4463159270D1D16005C4138 /* EmojiMemoryGameView.swift */,
-				D4CF8E24288081AB00DA73B0 /* Cardify.swift */,
-				D4D107B3274853B300A49205 /* Extensions.swift */,
+				D49CCD192A9EA7E100E9154F /* Views */,
+				D49CCD182A9EA7C300E9154F /* Models */,
+				D49CCD1A2A9EA7F800E9154F /* Helpers */,
 				D4463157270D1D16005C4138 /* MemorizeApp.swift */,
-				D40E259527238A1500962F24 /* MemoryAppModel.swift */,
-				7AF50076286A86AB00279935 /* TimerPie.swift */,
 				D446315B270D1D18005C4138 /* Assets.xcassets */,
 				D446315D270D1D18005C4138 /* Preview Content */,
-				D4CF8E262880827200DA73B0 /* Globals.swift */,
 			);
 			path = Memorize;
 			sourceTree = "<group>";
@@ -86,6 +81,35 @@
 				D446315E270D1D18005C4138 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D49CCD182A9EA7C300E9154F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D40E259927238FBC00962F24 /* EmojiMemoryGameModel.swift */,
+				D40E259527238A1500962F24 /* MemoryAppModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D49CCD192A9EA7E100E9154F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7AD5A21D2867D88800CA59DD /* AspectVGrid.swift */,
+				D4463159270D1D16005C4138 /* EmojiMemoryGameView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D49CCD1A2A9EA7F800E9154F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D4CF8E24288081AB00DA73B0 /* Cardify.swift */,
+				D4D107B3274853B300A49205 /* Extensions.swift */,
+				7AF50076286A86AB00279935 /* TimerPie.swift */,
+				D4CF8E262880827200DA73B0 /* Globals.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +181,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		D43D787C29007D5E0005DF39 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

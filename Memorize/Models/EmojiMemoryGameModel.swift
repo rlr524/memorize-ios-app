@@ -6,7 +6,7 @@
 //  Created by Rob Ranf on 10/22/21.
 //
 
-import SwiftUI
+import Foundation
 
 class EmojiMemoryGame: ObservableObject {
     typealias Card = MemoryGame<String>.Card
