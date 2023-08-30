@@ -20,6 +20,8 @@ struct EmojiMemoryGameView: View {
 
     var body: some View {
         VStack {
+            Text("Memorize")
+                .font(.title)
             gameBody
             
             HStack {
@@ -66,12 +68,11 @@ struct EmojiMemoryGameView: View {
                         endAngle: Angle(degrees: 110-90))
                     .padding(K.timerCirclePadding)
                     .opacity(K.timerCircleOpacity)
-                    withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
-                        Text(card.content)
-                            .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                            .font(font(in: g.size))
-                            .scaleEffect(scale(thatFits: g.size))
-                    }
+                    Text(card.content)
+                        .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
+                        .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: card.isMatched)
+                        .font(Font.system(size: K.fontSize))
+                        .scaleEffect(scale(thatFits: g.size))
                 }
                 .cardify(isFaceUp: card.isFaceUp)
             }
@@ -79,10 +80,6 @@ struct EmojiMemoryGameView: View {
         
         private func scale(thatFits size: CGSize) -> CGFloat {
             min(size.width, size.height) / (K.fontSize / K.fontScale)
-        }
-        
-        private func font(in size: CGSize) -> Font {
-            return Font.system(size: min(size.width, size.height) * K.fontScale)
         }
     }
     // MARK: - Preview pane
