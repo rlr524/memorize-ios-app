@@ -15,9 +15,9 @@ struct EmojiMemoryGameView: View {
      pointer to the vm as the viewModel. The vm is observed for changes
      so the view will re-render anytime the model is changed.
      */
-
+    
     @ObservedObject var game: EmojiMemoryGame
-
+    
     var body: some View {
         VStack {
             Text("Memorize")
@@ -42,7 +42,9 @@ struct EmojiMemoryGameView: View {
                 CardView(card: card)
                     .padding(4)
                     .onTapGesture {
-                        game.choose(card)
+                        withAnimation(.easeInOut(duration: 1)) {
+                            game.choose(card)
+                        }
                     }
             }
         }
@@ -59,7 +61,7 @@ struct EmojiMemoryGameView: View {
     
     struct CardView: View {
         let card: EmojiMemoryGame.Card
-
+        
         var body: some View {
             GeometryReader { g in
                 ZStack {

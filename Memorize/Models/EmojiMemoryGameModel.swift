@@ -52,7 +52,10 @@ class EmojiMemoryGame: ObservableObject {
     var cards: [Card] {
         return model.cards
     }
-
+    
+    // Not certain what instructor means by marking these as intents here and calling them
+    // intents. The term "intent" has a specific meaning in Swift (a struct that implements
+    // the AppIntent protocol) and these functions do not fall in that definition.
     // MARK: - Intent(s)
     func choose(_ card: Card) {
         model.choose(card)
