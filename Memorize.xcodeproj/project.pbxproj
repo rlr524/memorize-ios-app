@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7AD5A21E2867D88800CA59DD /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD5A21D2867D88800CA59DD /* AspectVGrid.swift */; };
 		7AF50077286A86AB00279935 /* TimerPie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF50076286A86AB00279935 /* TimerPie.swift */; };
-		D40E259627238A1500962F24 /* MemoryAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40E259527238A1500962F24 /* MemoryAppModel.swift */; };
+		D40E259627238A1500962F24 /* MemoryGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40E259527238A1500962F24 /* MemoryGameModel.swift */; };
 		D40E259A27238FBC00962F24 /* EmojiMemoryGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40E259927238FBC00962F24 /* EmojiMemoryGameModel.swift */; };
 		D4463158270D1D16005C4138 /* MemorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4463157270D1D16005C4138 /* MemorizeApp.swift */; };
 		D446315A270D1D16005C4138 /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4463159270D1D16005C4138 /* EmojiMemoryGameView.swift */; };
@@ -23,7 +23,7 @@
 /* Begin PBXFileReference section */
 		7AD5A21D2867D88800CA59DD /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		7AF50076286A86AB00279935 /* TimerPie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPie.swift; sourceTree = "<group>"; };
-		D40E259527238A1500962F24 /* MemoryAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryAppModel.swift; sourceTree = "<group>"; };
+		D40E259527238A1500962F24 /* MemoryGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGameModel.swift; sourceTree = "<group>"; };
 		D40E259927238FBC00962F24 /* EmojiMemoryGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameModel.swift; sourceTree = "<group>"; };
 		D4463154270D1D16005C4138 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4463157270D1D16005C4138 /* MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeApp.swift; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				D40E259927238FBC00962F24 /* EmojiMemoryGameModel.swift */,
-				D40E259527238A1500962F24 /* MemoryAppModel.swift */,
+				D40E259527238A1500962F24 /* MemoryGameModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -122,7 +122,6 @@
 				D4463150270D1D16005C4138 /* Sources */,
 				D4463151270D1D16005C4138 /* Frameworks */,
 				D4463152270D1D16005C4138 /* Resources */,
-				D43D787C29007D5E0005DF39 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -141,7 +140,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					D4463153270D1D16005C4138 = {
 						CreatedOnToolsVersion = 13.0;
@@ -178,27 +177,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		D43D787C29007D5E0005DF39 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint is not installed.\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		D4463150270D1D16005C4138 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -207,7 +185,7 @@
 				7AF50077286A86AB00279935 /* TimerPie.swift in Sources */,
 				D4D107B4274853B300A49205 /* Extensions.swift in Sources */,
 				D4CF8E25288081AB00DA73B0 /* Cardify.swift in Sources */,
-				D40E259627238A1500962F24 /* MemoryAppModel.swift in Sources */,
+				D40E259627238A1500962F24 /* MemoryGameModel.swift in Sources */,
 				7AD5A21E2867D88800CA59DD /* AspectVGrid.swift in Sources */,
 				D446315A270D1D16005C4138 /* EmojiMemoryGameView.swift in Sources */,
 				D4463158270D1D16005C4138 /* MemorizeApp.swift in Sources */,
@@ -256,6 +234,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -270,7 +249,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -317,6 +296,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -325,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -345,6 +325,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Memorize/Preview Content\"";
 				DEVELOPMENT_TEAM = 47E3RRLYKE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -375,6 +356,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Memorize/Preview Content\"";
 				DEVELOPMENT_TEAM = 47E3RRLYKE;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

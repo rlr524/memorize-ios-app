@@ -6,6 +6,10 @@
 //  Created by Rob Ranf on 10/5/21.
 //
 
+/*
+ https://youtu.be/-N1UR7Y105g?si=fGXY9z9DlsX36ORh&t=488
+ */
+
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
@@ -72,7 +76,8 @@ struct EmojiMemoryGameView: View {
                     .opacity(K.timerCircleOpacity)
                     Text(card.content)
                         .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                        .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: card.isMatched)
+                        .animation(.linear(duration: 1).repeatForever(autoreverses: false), 
+                                   value: card.isMatched)
                         .font(Font.system(size: K.fontSize))
                         .scaleEffect(scale(thatFits: g.size))
                 }
@@ -84,14 +89,15 @@ struct EmojiMemoryGameView: View {
             min(size.width, size.height) / (K.fontSize / K.fontScale)
         }
     }
-    // MARK: - Preview pane
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            let game = EmojiMemoryGame()
-            game.choose(game.cards[0])
-            game.choose(game.cards[2])
-            // game.choose(game.cards[4])
-            return EmojiMemoryGameView(game: game)
-        }
+}
+
+// MARK: - Preview pane
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        let game = EmojiMemoryGame()
+        game.choose(game.cards[0])
+        game.choose(game.cards[2])
+        // game.choose(game.cards[4])
+        return EmojiMemoryGameView(game: game)
     }
 }
