@@ -23,6 +23,7 @@ struct EmojiMemoryGameView: View {
             Text("Memorize")
                 .font(.title)
             gameBody
+            deckBody
             
             HStack {
                 shuffle
@@ -56,14 +57,24 @@ struct EmojiMemoryGameView: View {
             // their containing view (AspectVGrid), they don't come in after that view has loaded. 
             // So any animations for when the cards load need to be done on the enclosing view
             // (AspectVGrid).
-            withAnimation {
+            withAnimation(.easeInOut(duration: 5)) {
                 for card in vmGame.cards {
                     deal(card)
                 }
             }
             
         }
-        .foregroundColor(.red)
+        .foregroundColor(K.cardColor)
+    }
+    
+    var deckBody: some View {
+        ZStack {
+            ForEach(vmGame.cards.filter(notDealt)) {card in
+                CardView(card: card)
+            }
+        }
+        .frame(width: K.undealtWidth, height: K.undealtHeight)
+        .foregroundColor(K.cardColor)
     }
     
     struct CardView: View {
