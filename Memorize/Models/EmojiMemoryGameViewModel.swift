@@ -17,7 +17,7 @@ class EmojiMemoryGame: ObservableObject {
     */
     private static let emojis = [
         "🎃", "🍫", "🍬", "💀", "👻", "🧛🏻‍♀️", "🧙‍♀️", "🧙", "🍂", "🌙", "🧛‍♂️",
-        "🐈‍⬛", "🏠", "🦇", "🌃", "🔦", "🔮", "😱", "🧟‍♀️", "🧟‍♂️", "🎁", "🎄",
+        "🐈‍⬛", "🦇", "🌃", "🔮", "😱", "🧟‍♀️", "🧟‍♂️", "🎁", "🎄",
         "🎅", "🎎", "🪔", "🤶🏽", "🧑🏼‍🎄", "🦃", "🎂", "❄️", "☃️", "⛄️", "🛷",
         "🙏", "🎉", "🎊", "🥳", "🍁", "🥮", "🥧", "🇺🇳", "🇺🇸", "🇯🇵", "🇨🇳",
         "🇨🇦", "🇬🇧", "🇨🇭", "🇬🇷", "🇩🇪", "🇫🇷", "🇦🇷", "🇳🇱", "🇳🇬", "🇮🇩", "🇷🇺",
@@ -26,25 +26,25 @@ class EmojiMemoryGame: ObservableObject {
 
     // var emojiTheme = 0
     // var emojiCount = 20
-
-    /*
+    
+    /**
     This is a type function (static) in order to allow it to act as a global func but bind to
     a specific namespace.
     */
     private static func createMemoryGame() -> MemoryGame<String> {
-        MemoryGame<String>(numberOfPairsOfCards: 10, createCardContent: {pairIndex in
+        MemoryGame<String>(numberOfPairsOfCards: 18, createCardContent: {pairIndex in
             return emojis[pairIndex]
         })
     }
 
-    /*
+    /**
     The model is access controlled, private, as we only want the EmojiMemoryGame ViewModel to
     have full access to it. The model is also published, allowing the view to be re-rendered
     anytime that anything in the model is changed.
     */
     @Published private var model = createMemoryGame()
 
-    /*
+    /**
     Even though the model is private, we need the cards to be readable by other views,
     so we create an array of cards here for the VM and all it does is return the array of card
     from the model.
@@ -53,16 +53,17 @@ class EmojiMemoryGame: ObservableObject {
         return model.cards
     }
     
-    // Not certain what instructor means by marking these as intents here and calling them
-    // intents. The term "intent" has a specific meaning in Swift (a struct that implements
-    // the AppIntent protocol) and these functions do not fall in that definition.
-    // MARK: - Intent(s)
+    // MARK: Intent(s)
+    
     func choose(_ card: Card) {
+        // Have the model do the choosing, overriding the choose()
+        // method on the MemoryGame model. 
         model.choose(card)
     }
     
     func shuffle() {
-        // Have the model do the shuffling
+        // Have the model do the shuffling, overriding the shuffle()
+        // method on the MemoryGame model.
         model.shuffle()
     }
 }

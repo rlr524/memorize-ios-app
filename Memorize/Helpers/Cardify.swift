@@ -7,11 +7,19 @@
 
 import SwiftUI
 
-struct Cardify: ViewModifier {
-    var isFaceUp: Bool
+struct Cardify: Animatable, ViewModifier {
     var rotation: Double // in degrees
     
-    /*
+    init(isFaceUp: Bool) {
+        rotation = isFaceUp ? 0 : 180
+    }
+    
+    var animatableData: Double {
+        get { rotation }
+        set { rotation = newValue }
+    }
+    
+    /**
      This function would be just whatever content is being passed into .cardify, meaning
      whatever it is that we're modifying. Remember that all .modifier() is doing is returning
      a View that displays *this*.
@@ -19,15 +27,16 @@ struct Cardify: ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: K.cornerRadius)
-            if isFaceUp {
+            if rotation < 90 {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: K.lineWidth)
             } else {
                 shape.fill()
             }
             content
-                .opacity(isFaceUp ? 1 : 0)
+                .opacity(rotation < 90 ? 1 : 0)
         }
-        .rotation3DEffect(Angle.degrees(isFaceUp ? 0 : 180), axis: (0, 1, 0))
+        /// The card flip animation is performed here
+        .rotation3DEffect(Angle.degrees(rotation), axis: (0, 1, 0))
     }
 }

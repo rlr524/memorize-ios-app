@@ -6,21 +6,17 @@
 //  Created by Rob Ranf on 10/5/21.
 //
 
-/*
- https://youtu.be/-N1UR7Y105g?si=fGXY9z9DlsX36ORh&t=488
- */
-
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
     @Environment(\.colorScheme) var colorScheme
-    /*
+    /**
      Initialize this in the MemorizeApp (@main) file by passing in the
      pointer to the vm as the viewModel. The vm is observed for changes
      so the view will re-render anytime the model is changed.
      */
-    
-    @ObservedObject var game: EmojiMemoryGame
+    @ObservedObject var vmGame: EmojiMemoryGame
+    @State private var dealt = Set<Int>()
     
     var body: some View {
         VStack {
@@ -36,31 +32,38 @@ struct EmojiMemoryGameView: View {
     }
     
     var gameBody : some View {
-        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+        AspectVGrid(items: vmGame.cards, aspectRatio: 2/3) { card in
             // Card has been thrown away because it's matched and not face up
-            if card.isMatched && !card.isFaceUp {
+            if notDealt(card) || card.isMatched && !card.isFaceUp {
                 // Color behaves as a view here and creates a rectangle that fills this
                 // "card" area and it's filled with "clear" which just means transparent.
                 Color.clear
             } else {
                 CardView(card: card)
                     .padding(4)
+                    .transition(AnyTransition.scale.animation(Animation.easeInOut(duration: 2)))
                     .onTapGesture {
+                        // Choose is an intent function and calls to
+                        // intent functions almost always include animations.
                         withAnimation(.easeInOut(duration: 1)) {
-                            game.choose(card)
+                            vmGame.choose(card)
                         }
                     }
             }
         }
-        .foregroundColor(.red)
-    }
-    
-    var shuffle: some View {
-        Button("Shuffle") {
-            withAnimation(.easeInOut(duration: 2)) {
-                game.shuffle()
+        .onAppear {
+            // "Deal" the cards into the UI. Remember, the cards (CardView) appear in the UI with
+            // their containing view (AspectVGrid), they don't come in after that view has loaded. 
+            // So any animations for when the cards load need to be done on the enclosing view
+            // (AspectVGrid).
+            withAnimation {
+                for card in vmGame.cards {
+                    deal(card)
+                }
             }
+            
         }
+        .foregroundColor(.red)
     }
     
     struct CardView: View {
@@ -89,15 +92,31 @@ struct EmojiMemoryGameView: View {
             min(size.width, size.height) / (K.fontSize / K.fontScale)
         }
     }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            // Shuffle is an intent function and calls to intent
+            // functions almost always include animations.
+            withAnimation(.easeInOut(duration: 2)) {
+                vmGame.shuffle()
+            }
+        }
+    }
+    
+    private func deal(_ card: EmojiMemoryGame.Card) {
+        dealt.insert(card.id)
+    }
+    
+    private func notDealt(_ card: EmojiMemoryGame.Card) -> Bool {
+        return !dealt.contains(card.id)
+    }
 }
 
 // MARK: - Preview pane
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let game = EmojiMemoryGame()
-        game.choose(game.cards[0])
-        game.choose(game.cards[2])
-        // game.choose(game.cards[4])
-        return EmojiMemoryGameView(game: game)
-    }
+
+#Preview {
+    let game = EmojiMemoryGame()
+    game.choose(game.cards[0])
+    game.choose(game.cards[2])
+    return EmojiMemoryGameView(vmGame: game)
 }

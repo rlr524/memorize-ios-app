@@ -19,6 +19,6 @@ extension Array {
 
 extension View {
     func cardify(isFaceUp: Bool) -> some View {
-        return self.modifier(Cardify(isFaceUp: isFaceUp, rotation: 180))
+        return self.modifier(Cardify(isFaceUp: isFaceUp))
     }
 }
