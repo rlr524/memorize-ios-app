@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
+    @Namespace private var dealingNamespace
     @Environment(\.colorScheme) var colorScheme
     /**
      Initialize this in the MemorizeApp (@main) file by passing in the
@@ -19,21 +20,25 @@ struct EmojiMemoryGameView: View {
     @State private var dealt = Set<Int>()
     
     var body: some View {
-        VStack {
-            Text("Memorize")
-                .font(.title)
-            gameBody
-            deckBody
-            
-            HStack {
-                shuffle
+        ZStack(alignment: .bottom) {
+            VStack {
+                Text("Memorize")
+                    .font(.title)
+                gameBody
+                
+                HStack {
+                    restart
+                    Spacer()
+                    shuffle
+                }
+                .padding(.horizontal)
             }
+            deckBody
         }
-        .padding()
     }
     
     var gameBody : some View {
-        AspectVGrid(items: vmGame.cards, aspectRatio: 2/3) { card in
+        AspectVGrid(items: vmGame.cards, aspectRatio: K.aspectRatio) { card in
             // Card has been thrown away because it's matched and not face up
             if notDealt(card) || card.isMatched && !card.isFaceUp {
                 // Color behaves as a view here and creates a rectangle that fills this
@@ -41,8 +46,10 @@ struct EmojiMemoryGameView: View {
                 Color.clear
             } else {
                 CardView(card: card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .padding(4)
-                    .transition(AnyTransition.scale.animation(Animation.easeInOut(duration: 2)))
+                    .transition(AnyTransition.asymmetric(insertion: .identity, removal: .scale))
+                    .zIndex(zIndex(of: card))
                     .onTapGesture {
                         // Choose is an intent function and calls to
                         // intent functions almost always include animations.
@@ -52,18 +59,6 @@ struct EmojiMemoryGameView: View {
                     }
             }
         }
-        .onAppear {
-            // "Deal" the cards into the UI. Remember, the cards (CardView) appear in the UI with
-            // their containing view (AspectVGrid), they don't come in after that view has loaded. 
-            // So any animations for when the cards load need to be done on the enclosing view
-            // (AspectVGrid).
-            withAnimation(.easeInOut(duration: 5)) {
-                for card in vmGame.cards {
-                    deal(card)
-                }
-            }
-            
-        }
         .foregroundColor(K.cardColor)
     }
     
@@ -71,10 +66,24 @@ struct EmojiMemoryGameView: View {
         ZStack {
             ForEach(vmGame.cards.filter(notDealt)) {card in
                 CardView(card: card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(AnyTransition.asymmetric(insertion: .opacity, removal: .identity))
+                    .zIndex(zIndex(of: card))
             }
         }
         .frame(width: K.undealtWidth, height: K.undealtHeight)
         .foregroundColor(K.cardColor)
+        .onTapGesture {
+            // "Deal" the cards into the UI. Remember, the cards (CardView) appear in the UI
+            // with their containing view (AspectVGrid), they don't come in after that view has
+            // loaded. So any animations for when the cards load need to be done on the enclosing
+            // view (AspectVGrid).
+            for card in vmGame.cards {
+                withAnimation(dealAnimation(for: card)) {
+                    deal(card)
+                }
+            }
+        }
     }
     
     struct CardView: View {
@@ -90,7 +99,7 @@ struct EmojiMemoryGameView: View {
                     .opacity(K.timerCircleOpacity)
                     Text(card.content)
                         .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                        .animation(.linear(duration: 1).repeatForever(autoreverses: false), 
+                        .animation(.linear(duration: 1).repeatForever(autoreverses: false),
                                    value: card.isMatched)
                         .font(Font.system(size: K.fontSize))
                         .scaleEffect(scale(thatFits: g.size))
@@ -114,12 +123,33 @@ struct EmojiMemoryGameView: View {
         }
     }
     
+    var restart: some View {
+        Button("Restart") {
+            withAnimation {
+                dealt = []
+                vmGame.restart()
+            }
+        }
+    }
+    
     private func deal(_ card: EmojiMemoryGame.Card) {
         dealt.insert(card.id)
     }
     
     private func notDealt(_ card: EmojiMemoryGame.Card) -> Bool {
         return !dealt.contains(card.id)
+    }
+    
+    private func dealAnimation(for card: EmojiMemoryGame.Card) -> Animation {
+        var delay = 0.0
+        if let index = vmGame.cards.firstIndex(where: { $0.id == card.id}) {
+            delay = Double(index) * (K.totalDealDuration / Double(vmGame.cards.count))
+        }
+        return Animation.easeInOut(duration: K.dealDuration).delay(delay)
+    }
+    
+    private func zIndex(of card: EmojiMemoryGame.Card) -> Double {
+        -Double(vmGame.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
     }
 }
 

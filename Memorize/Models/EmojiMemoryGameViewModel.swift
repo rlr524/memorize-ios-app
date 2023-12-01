@@ -9,6 +9,7 @@
 import Foundation
 
 class EmojiMemoryGame: ObservableObject {
+    private static var gameType = K.gameType
     typealias Card = MemoryGame<String>.Card
     /*
     We make this a type variable (static) in order to allow it to act as a global var but
@@ -16,24 +17,32 @@ class EmojiMemoryGame: ObservableObject {
     initialized in a global context in order to allow it to be returned by the model.
     */
     private static let emojis = [
-        "🎃", "🍫", "🍬", "💀", "👻", "🧛🏻‍♀️", "🧙‍♀️", "🧙", "🍂", "🌙", "🧛‍♂️",
-        "🐈‍⬛", "🦇", "🌃", "🔮", "😱", "🧟‍♀️", "🧟‍♂️", "🎁", "🎄",
-        "🎅", "🎎", "🪔", "🤶🏽", "🧑🏼‍🎄", "🦃", "🎂", "❄️", "☃️", "⛄️", "🛷",
-        "🙏", "🎉", "🎊", "🥳", "🍁", "🥮", "🥧", "🇺🇳", "🇺🇸", "🇯🇵", "🇨🇳",
-        "🇨🇦", "🇬🇧", "🇨🇭", "🇬🇷", "🇩🇪", "🇫🇷", "🇦🇷", "🇳🇱", "🇳🇬", "🇮🇩", "🇷🇺",
-        "🇰🇷", "🇸🇪", "🇮🇹", "🇦🇺", "🇲🇿"
-    ]
-
-    // var emojiTheme = 0
-    // var emojiCount = 20
+        "🎃", "🍫", "🍬", "💀", "👻", "🧛🏻‍♀️", "🧙‍♀️", "🧙", "🌕", 
+        "🧛‍♂️", "🐈‍⬛", "🦇", "😱", "🧟‍♀️", "🧟‍♂️"]
+    private static let holidayEmojis = [
+        "🎁", "🎄", "🎅", "🎎", "🪔", "🤶🏽", "🧑🏼‍🎄", "🦃", "🎂", 
+        "❄️", "☃️", "⛄️", "🛷", "🙏", "🎉", "🎊", "🥳", "🍁",
+        "🥮", "🥧"]
+    private static let flagEmojis = [
+        "🇺🇳", "🇺🇸", "🇯🇵", "🇨🇳", "🇨🇦", "🇬🇧", "🇨🇭", "🇬🇷", "🇩🇪", 
+        "🇫🇷", "🇦🇷", "🇳🇱", "🇳🇬", "🇮🇩", "🇷🇺", "🇰🇷", "🇸🇪", "🇮🇹",
+        "🇦🇺", "🇲🇿"]
     
     /**
     This is a type function (static) in order to allow it to act as a global func but bind to
     a specific namespace.
     */
     private static func createMemoryGame() -> MemoryGame<String> {
-        MemoryGame<String>(numberOfPairsOfCards: 18, createCardContent: {pairIndex in
-            return emojis[pairIndex]
+        MemoryGame<String>(numberOfPairsOfCards: K.numberOfPairsOfCards,
+                           createCardContent: {pairIndex in
+            if (gameType == "flag") {
+                return flagEmojis[pairIndex]
+            }
+            else if (gameType == "halloween") {
+                return emojis[pairIndex]
+            } else {
+                return holidayEmojis[pairIndex]
+            }
         })
     }
 
@@ -65,5 +74,9 @@ class EmojiMemoryGame: ObservableObject {
         // Have the model do the shuffling, overriding the shuffle()
         // method on the MemoryGame model.
         model.shuffle()
+    }
+    
+    func restart() {
+        model = EmojiMemoryGame.createMemoryGame()
     }
 }
